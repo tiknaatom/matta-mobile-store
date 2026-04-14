@@ -8,7 +8,7 @@ import Papa from 'papaparse';
 
 // --- YOUR EXISTING 3D PHONE CODE REMAINS UNCHANGED ---
 function IPhone17ProMax() {
-  const phoneRef = useRef<any>();
+  const phoneRef = useRef<any>(null);
   useFrame((state, delta) => {
     if (phoneRef.current) { phoneRef.current.rotation.y += delta * 0.3; }
   });
@@ -112,7 +112,7 @@ function ProductGrid() {
 
   // WhatsApp Checkout Function
   const handleWhatsAppOrder = (productName: string, price: number) => {
-    const phoneNumber = "917906623139"; 
+    const phoneNumber = "919897281025"; 
     const message = `🚨 *NEW ORDER INQUIRY* 🚨\nStore: Matta Mobile Store\nItem: ${productName}\nPrice: ₹${price.toLocaleString('en-IN')}\n\nI would like to confirm availability and arrange a store pickup.`;
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
