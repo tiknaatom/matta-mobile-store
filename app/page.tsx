@@ -89,16 +89,18 @@ function ProductGrid() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // FETCH FROM GOOGLE SHEETS
+ // FETCH FROM GOOGLE SHEETS
   useEffect(() => {
-    // ⚠️ PASTE YOUR GOOGLE SHEETS CSV LINK HERE:
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyb6k-RX4XT4q9HrolCv9cjdvF1GXIaiRiQvraI_LTJy0LfFoOcM_9dtEDPPd4DeIf9jY_ta4zvwhL/pub?output=csv";
+    // 1. PASTE YOUR EXACT LINK HERE AGAIN:
+    const baseSheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyb6k-RX4XT4q9HrolCv9cjdvF1GXIaiRiQvraI_LTJy0LfFoOcM_9dtEDPPd4DeIf9jY_ta4zvwhL/pub?output=csv";
+    
+    // 2. THE CACHE BUSTER: This forces the browser to fetch fresh data every time
+    const sheetUrl = `${baseSheetUrl}&t=${new Date().getTime()}`;
 
     Papa.parse(sheetUrl, {
       download: true,
       header: true,
       complete: (results) => {
-        // Filter out empty rows
         const validProducts = results.data.filter((item: any) => item.name);
         setProducts(validProducts);
         setLoading(false);
@@ -134,7 +136,7 @@ function ProductGrid() {
               
               {/* Product Image Area - FIXED CROPPING */}
               <div className="relative h-64 bg-gray-200">
-                <img src={product.image} alt={product.name} className="w-full h-full object-contain p-4 bg-white" />
+               <img src={product.image ? product.image.trim().replace(/\\/g, '/') : ''} alt={product.name} className="w-full h-full object-contain p-4 bg-white" />
                 
                 {product.isDeal === 'TRUE' && (
                   <span className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
